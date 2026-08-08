@@ -1,7 +1,6 @@
 # Honeypot Feed Widget
 
 ![npm](https://img.shields.io/npm/v/@honeypotfeed/honeypot-feed-widget)
-![npm react](https://img.shields.io/npm/v/@honeypot-feed/react)
 ![license](https://img.shields.io/npm/l/@honeypotfeed/honeypot-feed-widget)
 ![bundle size](https://img.shields.io/bundlephobia/minzip/@honeypotfeed/honeypot-feed-widget)
 
@@ -108,13 +107,14 @@ await widget.mount('#my-container')
 ### Installation
 
 ```bash
-npm install @honeypot-feed/react
+# React components are included in the main package
+npm install @honeypotfeed/honeypot-feed-widget
 ```
 
 ### Usage
 
 ```tsx
-import { HoneypotWidget } from '@honeypot-feed/react'
+import { HoneypotWidget } from '@honeypotfeed/honeypot-feed-widget/react'
 
 function App() {
   const [token, setToken] = useState('')

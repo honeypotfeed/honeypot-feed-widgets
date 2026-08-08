@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup'
 export default defineConfig([
   // ESM + CJS (for npm bundlers)
   {
-    entry: ['src/index.ts'],
+    entry: ['src/index.ts', 'src/react/index.tsx'],
     format: ['esm', 'cjs'],
     dts: true,
     sourcemap: true,
@@ -11,6 +11,7 @@ export default defineConfig([
     target: 'es2020',
     minify: true,
     outDir: 'dist',
+    external: ['react', 'react-dom'],
   },
   // UMD (for CDN <script> tag)
   {
