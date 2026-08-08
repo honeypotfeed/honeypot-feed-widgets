@@ -104,16 +104,20 @@ await widget.mount('#my-container')
 
 ## React Integration
 
-### Installation
+The React components are included in the main package as a **subpath export**. You only need to install once:
 
 ```bash
-# React components are included in the main package
+# Same package - just different import path
 npm install @honeypot-feed-official/honeypot-feed-widget
 ```
 
-### Usage
+| Framework | Import Path |
+|-----------|-------------|
+| Vanilla JS | `@honeypot-feed-official/honeypot-feed-widget` |
+| React | `@honeypot-feed-official/honeypot-feed-widget/react` |
 
 ```tsx
+// React import (note the /react suffix)
 import { HoneypotWidget } from '@honeypot-feed-official/honeypot-feed-widget/react'
 
 function App() {
