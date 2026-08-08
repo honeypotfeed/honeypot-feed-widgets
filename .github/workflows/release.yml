@@ -54,16 +54,7 @@ jobs:
       - name: Publish base widget to npm
         run: npm publish --access public
 
-      - name: Build React wrapper
-        run: cd react && bun install && bun run typecheck && bun run build
-
-      - name: Update React package version
-        run: |
-          jq --arg v "${{ steps.version.outputs.VERSION }}" '.version = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
-          jq --arg v "^${{ steps.version.outputs.VERSION }}" '.dependencies["@honeypot-feed-official/honeypot-feed-widget"] = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
-
-      - name: Publish React wrapper to npm
-        run: cd react && npm publish --access public
+      - name: Create GitHub Release
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
