@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Honeypot Feed Widget — Demo</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    h1 { font-size: 24px; margin-bottom: 8px; }
+    p { color: #94a3b8; margin-bottom: 32px; font-size: 14px; }
+    .demos { display: flex; flex-direction: column; gap: 40px; width: 100%; max-width: 900px; }
+    .demo-section { background: #1e293b; border-radius: 12px; padding: 24px; }
+    .demo-section h2 { font-size: 16px; margin-bottom: 16px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 500; }
+    .demo-row { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+    #widget-mount { width: 100%; max-width: 420px; }
+  </style>
+</head>
+<body>
+  <h1>🛡️ Honeypot Feed Widget</h1>
+  <p>Embeddable token security scanner — zero dependencies, Shadow DOM isolated</p>
+
+  <div class="demos">
+    <!-- 1. Full Widget -->
+    <div class="demo-section">
+      <h2>Full Widget (Programmatic)</h2>
+      <div class="demo-row">
+        <div id="widget-mount"></div>
+      </div>
+    </div>
+
+    <!-- 2. Scan Button -->
+    <div class="demo-section">
+      <h2>Scan Button (Data Attributes)</h2>
+      <div class="demo-row">
+        <button
+          class="honeypot-scan-btn"
+          data-address="0xdac17f958d2ee523a2206206994597c13d831ec7"
+          data-network="ethereum"
+          data-position="bottom-right"
+        >
+          Scan USDT on Ethereum
+        </button>
+        <button
+          class="honeypot-scan-btn"
+          data-address="0x55d398326f99059ff775485246999027b3197955"
+          data-network="bsc"
+          data-position="bottom-left"
+        >
+          Scan USDT on BSC
+        </button>
+      </div>
+    </div>
+
+    <!-- 3. Risk Badge -->
+    <div class="demo-section">
+      <h2>Risk Badges (Data Attributes)</h2>
+      <div class="demo-row" style="gap:16px; align-items:center;">
+        <span
+          class="honeypot-risk-badge"
+          data-address="0xdac17f958d2ee523a2206206994597c13d831ec7"
+          data-network="ethereum"
+          data-show-score="true"
+          data-show-label="true"
+        ></span>
+        <span
+          class="honeypot-risk-badge"
+          data-address="0x55d398326f99059ff775485246999027b3197955"
+          data-network="bsc"
+          data-show-score="true"
+          data-show-label="true"
+        ></span>
+        <span
+          class="honeypot-risk-badge"
+          data-address="0x6982508145454ce325ddbe47a25d4ec3d2311933"
+          data-network="ethereum"
+          data-show-score="false"
+          data-show-label="true"
+        ></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load widget (for dev, point to local; for prod, use CDN) -->
+  <script src="./dist/index.umd.js"></script>
+  <script>
+    // Init full widget programmatically
+    if (typeof HoneypotFeedWidget !== 'undefined') {
+      const W = HoneypotFeedWidget.HoneypotFeedWidget || HoneypotFeedWidget
+      const widget = new W({
+        apiUrl: 'https://honeypotfeed.com/api',
+        theme: 'auto',
+        defaultNetwork: 'ethereum',
+        showBranding: true,
+        onScanComplete: (result) => {
+          console.log('[Widget] Scan complete:', result.riskScore, result.riskLevel)
+        },
+        onError: (err) => {
+          console.error('[Widget] Error:', err.message)
+        },
+      })
+      widget.mount('#widget-mount')
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+name: Release Widget
+
+on:
+  push:
+    tags:
+      - 'widget-v*'
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Type check (base widget)
+        run: bun run typecheck
+
+      - name: Build (base widget)
+        run: bun run build
+
+      - name: Verify dist output
+        run: |
+          ls -la dist/
+          test -f dist/index.js || (echo "Missing CJS output" && exit 1)
+          test -f dist/index.mjs || (echo "Missing ESM output" && exit 1)
+          test -f dist/index.d.ts || (echo "Missing type declarations" && exit 1)
+          test -f dist/index.umd.js || (echo "Missing UMD output" && exit 1)
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#widget-v}" >> "$GITHUB_OUTPUT"
+
+      - name: Update package.json version
+        run: |
+          jq --arg v "${{ steps.version.outputs.VERSION }}" '.version = $v' package.json > package.tmp && mv package.tmp package.json
+
+      - name: Publish base widget to npm
+        run: npm publish --access public
+
+      - name: Build React wrapper
+        run: cd react && bun install && bun run typecheck && bun run build
+
+      - name: Update React package version
+        run: |
+          jq --arg v "${{ steps.version.outputs.VERSION }}" '.version = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
+          jq --arg v "^${{ steps.version.outputs.VERSION }}" '.dependencies["honeypot-feed-widget"] = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
+
+      - name: Publish React wrapper to npm
+        run: cd react && npm publish --access public
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "Widget ${{ steps.version.outputs.VERSION }}"
+          body: |
+            ## Changes
+            See [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+
+            ## Install
+
+            ### Vanilla JS
+            ```bash
+            npm install honeypot-feed-widget@${{ steps.version.outputs.VERSION }}
+            ```
+
+            ### React
+            ```bash
+            npm install @honeypot-feed/react@${{ steps.version.outputs.VERSION }}
+            ```
+
+            ### CDN
+            ```html
+            <script src="https://cdn.honeypotfeed.com/widget/v${{ steps.version.outputs.VERSION }}/honeypot-feed-widget.umd.js"></script>
+            ```
+          files: |
+            dist/*
+          generate_release_notes: true

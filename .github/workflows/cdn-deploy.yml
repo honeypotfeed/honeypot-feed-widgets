@@ -1,0 +1,66 @@
+name: Deploy CDN
+
+on:
+  push:
+    tags:
+      - 'widget-v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Widget version to deploy (e.g. 1.0.0)'
+        required: true
+
+jobs:
+  deploy-cdn:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Extract version
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "VERSION=${{ github.event.inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "VERSION=${GITHUB_REF_NAME#widget-v}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy to CDN server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.CDN_HOST }}
+          username: ${{ secrets.CDN_USER }}
+          key: ${{ secrets.CDN_SSH_KEY }}
+          source: "dist/index.umd.js"
+          target: "/opt/apps/cdn/widget/v${{ steps.version.outputs.VERSION }}"
+          strip_components: 1
+          overwrite: true
+
+      - name: Rename file on server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.CDN_HOST }}
+          username: ${{ secrets.CDN_USER }}
+          key: ${{ secrets.CDN_SSH_KEY }}
+          script: |
+            cd /opt/apps/cdn/widget/v${{ steps.version.outputs.VERSION }}
+            mv index.umd.js honeypot-feed-widget.js
+            
+            # Create/update symlinks for v1 alias
+            cd /opt/apps/cdn/widget
+            mkdir -p v1
+            ln -sf ../v${{ steps.version.outputs.VERSION }}/honeypot-feed-widget.js v1/honeypot-feed-widget.js
+            ln -sf ../v${{ steps.version.outputs.VERSION }}/honeypot-feed-widget.js v1/latest.js
+            
+            echo "CDN updated to v${{ steps.version.outputs.VERSION }}"
+            ls -la v*/honeypot-feed-widget.js
