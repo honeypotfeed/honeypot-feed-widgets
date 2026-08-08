@@ -9,5 +9,5 @@ export default defineConfig({
   target: 'es2020',
   minify: true,
   outDir: 'dist',
-  external: ['react', 'react-dom', 'honeypot-feed-widget'],
+  external: ['react', 'react-dom', '@honeypotfeed/honeypot-feed-widget'],
 })

@@ -29,7 +29,7 @@ import {
   type WidgetConfig,
   type ScanResult,
   type NetworkInfo,
-} from 'honeypot-feed-widget'
+} from '@honeypotfeed/honeypot-feed-widget'
 
 export type { WidgetConfig, ScanResult, NetworkInfo }
 

@@ -1,5 +1,5 @@
 {
-  "name": "honeypot-feed-widget",
+  "name": "@honeypotfeed/honeypot-feed-widget",
   "version": "1.0.0",
   "description": "Embeddable widget for token honeypot detection. Scan any token across 15+ networks for scams, rugpulls, and honeypots.",
   "main": "dist/index.js",

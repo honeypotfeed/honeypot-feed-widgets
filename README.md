@@ -1,9 +1,9 @@
 # Honeypot Feed Widget
 
-![npm](https://img.shields.io/npm/v/honeypot-feed-widget)
+![npm](https://img.shields.io/npm/v/@honeypotfeed/honeypot-feed-widget)
 ![npm react](https://img.shields.io/npm/v/@honeypot-feed/react)
-![license](https://img.shields.io/npm/l/honeypot-feed-widget)
-![bundle size](https://img.shields.io/bundlephobia/minzip/honeypot-feed-widget)
+![license](https://img.shields.io/npm/l/@honeypotfeed/honeypot-feed-widget)
+![bundle size](https://img.shields.io/bundlephobia/minzip/@honeypotfeed/honeypot-feed-widget)
 
 Embeddable widget for token honeypot detection on external websites. Lightweight, zero runtime dependencies, and fully customizable.
 
@@ -49,11 +49,11 @@ const { token, expiresIn } = await response.json()
 #### NPM
 
 ```bash
-npm install honeypot-feed-widget
+npm install @honeypotfeed/honeypot-feed-widget
 ```
 
 ```javascript
-import { HoneypotFeedWidget } from 'honeypot-feed-widget'
+import { HoneypotFeedWidget } from '@honeypotfeed/honeypot-feed-widget'
 
 const widget = new HoneypotFeedWidget({
   apiUrl: 'https://honeypotfeed.info/api',

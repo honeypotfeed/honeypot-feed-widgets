@@ -59,7 +59,7 @@ jobs:
       - name: Update React package version
         run: |
           jq --arg v "${{ steps.version.outputs.VERSION }}" '.version = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
-          jq --arg v "^${{ steps.version.outputs.VERSION }}" '.dependencies["honeypot-feed-widget"] = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
+          jq --arg v "^${{ steps.version.outputs.VERSION }}" '.dependencies["@honeypotfeed/honeypot-feed-widget"] = $v' react/package.json > react/package.tmp && mv react/package.tmp react/package.json
 
       - name: Publish React wrapper to npm
         run: cd react && npm publish --access public
@@ -76,7 +76,7 @@ jobs:
 
             ### Vanilla JS
             ```bash
-            npm install honeypot-feed-widget@${{ steps.version.outputs.VERSION }}
+            npm install @honeypotfeed/honeypot-feed-widget@${{ steps.version.outputs.VERSION }}
             ```
 
             ### React
