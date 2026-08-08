@@ -1,6 +1,6 @@
 {
   "name": "@honeypot-feed/react",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "React wrapper for Honeypot Feed Widget - token honeypot detection for React apps",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -46,10 +46,10 @@
   "homepage": "https://honeypotfeed.info",
   "repository": {
     "type": "git",
-    "url": "https://github.com/JudahAragao/honeypot-feed-widget.git"
+    "url": "https://github.com/honeypotfeed/honeypot-feed-widgets.git"
   },
   "bugs": {
-    "url": "https://github.com/JudahAragao/honeypot-feed-widget/issues"
+    "url": "https://github.com/honeypotfeed/honeypot-feed-widgets/issues"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
