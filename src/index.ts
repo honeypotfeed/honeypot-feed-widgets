@@ -121,7 +121,7 @@ interface NetworkInfo {
   chainId?: number
   rpcUrl: string
   explorerUrl: string
-  type: 'evm' | 'solana' | 'tron' | 'ton' | 'sui' | 'aptos' | 'bitcoin'
+  type: 'solana'
 }
 
 declare global {
@@ -296,7 +296,7 @@ function createRiskBadgeStyles(isDark: boolean): string {
 
 async function initRiskBadge(el: HTMLElement, client: HoneypotFeedClient): Promise<void> {
   const address = el.dataset.address
-  const network = el.dataset.network || 'ethereum'
+  const network = el.dataset.network || 'solana'
   const showScore = el.dataset.showScore !== 'false'
   const showLabel = el.dataset.showLabel !== 'false'
   const scanUrl = el.dataset.scanUrl || `https://honeypotfeed.com/scan?address=${address}&network=${network}`
@@ -436,7 +436,7 @@ function createScanButtonStyles(isDark: boolean): string {
 
 function bindScanButton(btn: HTMLButtonElement, client: HoneypotFeedClient): void {
   const address = btn.dataset.address
-  const network = btn.dataset.network || 'ethereum'
+  const network = btn.dataset.network || 'solana'
   const position = btn.dataset.position || 'bottom-right'
 
   if (!address) {
@@ -543,7 +543,7 @@ class HoneypotFeedWidget {
       apiUrl: config.apiUrl,
       token: config.token,
       theme: config.theme || 'auto',
-      defaultNetwork: config.defaultNetwork || 'ethereum',
+      defaultNetwork: config.defaultNetwork || 'solana',
       networks: config.networks || [],
       showBranding: config.showBranding !== false,
       container: config.container || '#honeypot-feed-widget',
@@ -752,13 +752,7 @@ class HoneypotFeedWidget {
     const network = this.networks.find(n => n.id === networkId)
     if (!network) return address.length > 10
     switch (network.type) {
-      case 'evm': return /^0x[a-fA-F0-9]{40}$/.test(address)
       case 'solana': return /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(address)
-      case 'tron': return /^T[A-Za-z0-9]{33}$/.test(address)
-      case 'ton': return /^[A-Za-z0-9_-]{48}$/.test(address) || address.startsWith('EQ') || address.startsWith('UQ')
-      case 'sui': return /^0x[a-fA-F0-9]{64}$/.test(address)
-      case 'aptos': return /^0x[a-fA-F0-9]{64}$/.test(address)
-      case 'bitcoin': return /^(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}$/.test(address)
       default: return address.length > 10
     }
   }
@@ -782,14 +776,7 @@ class HoneypotFeedWidget {
 
   private getDefaultNetworks(): NetworkInfo[] {
     return [
-      { id: 'ethereum', name: 'Ethereum', chain: 'EVM', chainId: 1, rpcUrl: '', explorerUrl: 'https://etherscan.io', type: 'evm' },
-      { id: 'bsc', name: 'BSC', chain: 'EVM', chainId: 56, rpcUrl: '', explorerUrl: 'https://bscscan.com', type: 'evm' },
-      { id: 'polygon', name: 'Polygon', chain: 'EVM', chainId: 137, rpcUrl: '', explorerUrl: 'https://polygonscan.com', type: 'evm' },
-      { id: 'arbitrum', name: 'Arbitrum', chain: 'EVM', chainId: 42161, rpcUrl: '', explorerUrl: 'https://arbiscan.io', type: 'evm' },
-      { id: 'base', name: 'Base', chain: 'EVM', chainId: 8453, rpcUrl: '', explorerUrl: 'https://basescan.org', type: 'evm' },
       { id: 'solana', name: 'Solana', chain: 'Solana', rpcUrl: '', explorerUrl: 'https://solscan.io', type: 'solana' },
-      { id: 'tron', name: 'TRON', chain: 'TRON', rpcUrl: '', explorerUrl: 'https://tronscan.org', type: 'tron' },
-      { id: 'ton', name: 'TON', chain: 'TON', rpcUrl: '', explorerUrl: 'https://tonscan.org', type: 'ton' },
     ]
   }
 

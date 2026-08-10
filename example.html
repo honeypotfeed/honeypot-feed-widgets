@@ -45,7 +45,7 @@
         <button
           class="honeypot-scan-btn"
           data-address="0xdac17f958d2ee523a2206206994597c13d831ec7"
-          data-network="ethereum"
+          data-network="solana"
           data-position="bottom-right"
         >
           Scan USDT on Ethereum
@@ -68,7 +68,7 @@
         <span
           class="honeypot-risk-badge"
           data-address="0xdac17f958d2ee523a2206206994597c13d831ec7"
-          data-network="ethereum"
+          data-network="solana"
           data-show-score="true"
           data-show-label="true"
         ></span>
@@ -82,7 +82,7 @@
         <span
           class="honeypot-risk-badge"
           data-address="0x6982508145454ce325ddbe47a25d4ec3d2311933"
-          data-network="ethereum"
+          data-network="solana"
           data-show-score="false"
           data-show-label="true"
         ></span>
@@ -99,7 +99,7 @@
       const widget = new W({
         apiUrl: 'https://honeypotfeed.com/api',
         theme: 'auto',
-        defaultNetwork: 'ethereum',
+        defaultNetwork: .solana.,
         showBranding: true,
         onScanComplete: (result) => {
           console.log('[Widget] Scan complete:', result.riskScore, result.riskLevel)

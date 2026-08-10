@@ -58,7 +58,7 @@ const widget = new HoneypotFeedWidget({
   apiUrl: 'https://honeypotfeed.info/api',
   token: token,  // JWT from your backend (NOT API key)
   theme: 'auto',
-  defaultNetwork: 'ethereum',
+  defaultNetwork: .solana.,
   onScanComplete: (result) => {
     console.log('Risk score:', result.riskScore)
   },

@@ -1,7 +1,7 @@
 {
   "name": "@honeypot-feed-official/honeypot-feed-widget",
-  "version": "1.0.5",
-  "description": "Embeddable widget for token honeypot detection. Scan any token across 15+ networks for scams, rugpulls, and honeypots.",
+  "version": "2.0.0",
+  "description": "Embeddable widget for Solana token honeypot detection. Scan tokens for scams, rugpulls, and honeypots.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
